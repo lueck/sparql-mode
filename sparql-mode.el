@@ -143,7 +143,7 @@ SPARQL query."
       (error "URL '%s' is not accessible" endpoint-url))
     (with-current-buffer sparql-results-buffer
       (let ((buffer-read-only nil))
-        (if (and (<= 200 response) (>= 299 response))
+        (if (and (<= 200 response) (<= response 299))
             (url-insert results-buffer)
           (insert results-buffer))
         (setq mode-name "SPARQL[finished]")))))
@@ -296,7 +296,7 @@ keywords."
                 (let ((url-request-method "GET"))
                   (url-insert
                    (url-retrieve-synchronously
-                    "http://prefix.cc/popular/all.file.sparql")))
+                    "http://prefix.cc/popular/all.file.sparql" t)))
                 (goto-char (point-min))
                 (while (search-forward "PREFIX " nil t)
                   (replace-match "")))
